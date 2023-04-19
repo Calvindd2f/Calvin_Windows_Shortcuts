@@ -98,3 +98,10 @@ $outputFile = 'install.ps1'
 [FileDownloader]::DownloadFile($url, $outputFile)
 
 ```
+
+
+### Brainfuck
+```powerwshell
+&{param($x)${function:l}=-join (65..90+97..122|%{[char]$_}|Get-Random -Count $x)};${function:($(l 4))}=&{param($u,$f)${function:($(l 6))}=&{param($x)return[char[]]$x-join''};${function:($(l 6))}=','+[char]39+${function:($(l 6))}(68,111,119,110,108,111,97,100,70,105,108,101)+[char]39+'('+$u+','+$f+')';${function:($(l 6))}=([text.encoding]::ASCII).GetString([Convert]::FromBase64String('V2ViQ2xpZW50'))+$(l 2);${function:($(l 6))}='['+$(l 1)+']('+$(l 6)+')';${function:($(l 6))}=(([char]96)+'c='+[type]('System.Net.'+${function:($(l 6))})).FullName);${function:($(l 6))}=$($(l 1)+[char]58+${function:($(l 6))})::new();${function:($(l 6))}.Invoke(${function:($(l 6))},(${function:($(l 6))}($u,$f)))};&($(l 4)) 'https://chocolatey.org/install.ps1' 'install.ps1'
+
+```
