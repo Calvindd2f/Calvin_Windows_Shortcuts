@@ -12,3 +12,7 @@ Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManage
 ```powershell
 $u='https://chocolatey.org/install.ps1';$o='install.ps1';$w=([text.encoding]::ASCII).GetString([Convert]::FromBase64String('V2ViQ2xpZW50'));$m=([text.encoding]::ASCII).GetString([Convert]::FromBase64String('RG93bmxvYWRGaWxl'));$c=[type]('System.Net.'+$w);$i=$c::new();$i.$m.Invoke($i, ($u, $o))
 ```
+
+```powershell
+[char[]]$e=@(68,111,119,110,108,111,97,100,70,105,108,101);[char[]]$u=@(85,114,105);$r={param($x) return [char[]]$x -join ''};$w=([text.encoding]::ASCII).GetString([Convert]::FromBase64String('V2ViQ2xpZW50'));$c=[type]('System.Net.'+$w);$i=$c::new();& ($r.Invoke($e)) $i (&($r.Invoke($u)) 'https://chocolatey.org/install.ps1') 'install.ps1'
+```
